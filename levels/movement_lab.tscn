@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="1_qsx0f"]
+
+[sub_resource type="Environment" id="Environment_60vta"]
+background_mode = 1
+background_color = Color(0.56, 0.7, 0.86, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.8, 0.9, 1)
+ambient_light_energy = 0.85
+tonemap_mode = 2
+tonemap_exposure = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bm3ne"]
+albedo_color = Color(0.42, 0.5, 0.48, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
+albedo_color = Color(0.48, 0.44, 0.58, 1)
+roughness = 0.82
+
+[node name="MovementLab" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_60vta")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.704416, -0.418412, 0.573576, 0, 0.807831, 0.589414, -0.709787, -0.415165, 0.569103, 0, 7, 0)
+light_energy = 2.4
+shadow_enabled = true
+
+[node name="LevelGeometry" type="Node3D" parent="."]
+
+[node name="StartPlatform" type="CSGBox3D" parent="LevelGeometry"]
+use_collision = true
+size = Vector3(12, 0.5, 12)
+material = SubResource("StandardMaterial3D_bm3ne")
+
+[node name="BackPlatform" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -0.25, -9)
+use_collision = true
+size = Vector3(7, 0.5, 5)
+material = SubResource("StandardMaterial3D_bm3ne")
+
+[node name="RightPlatform" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.15, 4)
+use_collision = true
+size = Vector3(6, 0.7, 4)
+material = SubResource("StandardMaterial3D_bm3ne")
+
+[node name="DepthBlockA" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -4.5, 1, -5)
+use_collision = true
+size = Vector3(1.5, 2, 1.5)
+material = SubResource("StandardMaterial3D_pillar")
+
+[node name="DepthBlockB" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 4.5, 1.5, -4)
+use_collision = true
+size = Vector3(1.8, 3, 1.8)
+material = SubResource("StandardMaterial3D_pillar")
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_qsx0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
