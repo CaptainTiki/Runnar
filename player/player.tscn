@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cy00e7fvoufdl"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_3xnll"]
+[ext_resource type="Script" uid="uid://k5xnv6fuogxf" path="res://player/player.gd" id="1_3xnll"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_yw30f"]
+[ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_qjkh3"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="4_g6k8r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1ridq"]
 radius = 0.35
@@ -14,26 +17,70 @@ height = 1.8
 albedo_color = Color(0.18, 0.62, 0.9, 1)
 roughness = 0.65
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=1104942442]
 script = ExtResource("1_3xnll")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=880481612]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_1ridq")
 
-[node name="Visual" type="MeshInstance3D" parent="."]
+[node name="Visual" type="MeshInstance3D" parent="." unique_id=2011577811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("CapsuleMesh_x4i2n")
 surface_material_override/0 = SubResource("StandardMaterial3D_5urwp")
 
-[node name="CameraRig" type="Node3D" parent="."]
+[node name="CameraRig" type="Node3D" parent="." unique_id=1615204535]
 transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 1.35, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraRig" unique_id=595928822]
 collision_mask = 0
 spring_length = 5.5
 margin = 0.2
 
-[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="CameraRig/SpringArm3D" unique_id=720436262]
 current = true
 fov = 65.0
+
+[node name="Components" type="Node3D" parent="." unique_id=1170086729]
+
+[node name="StateChart" type="Node" parent="." unique_id=1862430437]
+script = ExtResource("2_yw30f")
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="Life" type="Node" parent="StateChart" unique_id=618496511]
+script = ExtResource("3_qjkh3")
+metadata/_custom_type_script = "uid://c1vp0ojjvaby1"
+
+[node name="Movement" type="Node" parent="StateChart" unique_id=1671796707]
+script = ExtResource("3_qjkh3")
+metadata/_custom_type_script = "uid://c1vp0ojjvaby1"
+
+[node name="Grounded" type="Node" parent="StateChart/Movement" unique_id=2883481]
+script = ExtResource("4_g6k8r")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="Airborne" type="Node" parent="StateChart/Movement" unique_id=756987923]
+script = ExtResource("4_g6k8r")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="Wall" type="Node" parent="StateChart/Movement" unique_id=992860939]
+script = ExtResource("4_g6k8r")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="Traversal" type="Node" parent="StateChart/Movement" unique_id=1541920193]
+script = ExtResource("4_g6k8r")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1462934104]
+
+[node name="LifeState" type="Node" parent="StateMachine" unique_id=1794121765]
+
+[node name="MovementState" type="Node" parent="StateMachine" unique_id=1642873726]
+
+[node name="GroundedState" type="Node" parent="StateMachine/MovementState" unique_id=1525152790]
+
+[node name="AirborneState" type="Node" parent="StateMachine/MovementState" unique_id=1799035327]
+
+[node name="WallRunState" type="Node" parent="StateMachine/MovementState" unique_id=1018397579]
+
+[node name="TraversalState" type="Node" parent="StateMachine/MovementState" unique_id=1600117718]
