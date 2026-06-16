@@ -1,19 +1,18 @@
 class_name PlayerState
 extends Node
 
-@export_node_path("CharacterBody3D") var player_path: NodePath
+@export var player_path: NodePath
 @export_node_path("StateChartState") var state_path: NodePath
 
-var player: CharacterBody3D
+var player: Player
 var state: StateChartState
 
 
 func _ready() -> void:
-	player = get_node_or_null(player_path) as CharacterBody3D
+	player = get_node_or_null(player_path) as Player
 	state = get_node_or_null(state_path) as StateChartState
 
 	assert(player != null)
-	assert(player.name == "Player")
 	assert(state != null)
 
 	state.state_entered.connect(enter)
